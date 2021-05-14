@@ -1,5 +1,5 @@
 const fs = require('fs');
-
+const crypto = require('crypto');
 
 class Auth {
 
@@ -11,12 +11,24 @@ class Auth {
 
     newStart() {
         const authFile = `${this.homedir}/.passdex/auth.json`;
+        const secret = crypto.randomBytes(24).toString('hex');
+        fs.writeFileSync(`${this.homedir}/.passdex/secret`, secret)
+        const defaultUsername = crypto.createHmac('sha256', secret).update('password').digest('hex');
+        const defaultPasssword = crypto.createHmac('sha256', secret).update('password').digest('hex');
         let defaultCreds = {
-            username: 'username',
-            password: 'password'
+            username: defaultUsername,
+            password: defaultPasssword
         };
         let data = JSON.stringify(defaultCreds);
         fs.writeFileSync(authFile, data);
+    }
+
+    hashed(data) {
+        const secret = fs.readFileSync(`${this.homedir}/.passdex/secret`)
+        const hash = crypto.createHmac('sha256', secret)
+            .update(data)
+            .digest('hex')
+        return hash
     }
 
 
@@ -25,7 +37,7 @@ class Auth {
             let creds = fs.readFileSync(`${this.homedir}/.passdex/auth.json`);
             let data = JSON.parse(creds);
 
-            if (data.username == username && data.password == password) {
+            if (data.username == this.hashed(username) && data.password == this.hashed(password)) {
                 this.authenticated = true;
             }
         }
@@ -39,10 +51,5 @@ class Auth {
 
 }
 
-
-
-//const trail = new Auth();
-
-//trail.login('username', 'passwod');
 
 export default new Auth()

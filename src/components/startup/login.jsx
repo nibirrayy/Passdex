@@ -19,15 +19,15 @@ export default function Login(props) {
         createCheckHomeDir()
     }, [])
 
-    const { username, setUsername } = useState();
-    const { password, setPassword } = useState();
+    const [username, setUsername] = useState();
+    const [password, setPassword] = useState();
 
     //The handlers of usernaem and password states are below
     const usernameHandler = (e) => {
-        setUsername('username')
+        setUsername(e.target.value)
     }
     const passwordHandler = (e) => {
-        setPassword('password')
+        setPassword(e.target.value)
     }
 
     return (
@@ -45,7 +45,7 @@ export default function Login(props) {
                         <form>
                             <input className="block" type="username" name="username" placeholder="username" value={username} onChange={usernameHandler} />
                             <input className="block" type="password" name="password" placeholder="password" value={password} onChange={passwordHandler} />
-                            <input className="block mt-6 border-2" type="submit" value="login" onClick={() => { login(props, 'username', 'password') }} />
+                            <input className="block mt-6 border-2" type="submit" value="login" onClick={() => { login(props, username, password) }} />
                         </form>
                     </div>
                 </section>
