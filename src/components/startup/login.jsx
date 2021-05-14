@@ -1,7 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from '../../assets/logo.svg';
 
-export default function Login() {
+
+import createCheckHomeDir from '../../lib/startup.js'
+import Auth from "../../lib/auth.js";
+
+const login = (props, username, password) => {
+    const isAuth = Auth.login(username, password);
+    if (isAuth) {
+        props.history.push('/main')
+    }
+}
+
+
+export default function Login(props) {
+
+    useEffect(() => {
+        createCheckHomeDir()
+    }, [])
+
+    const { username, setUsername } = useState();
+    const { password, setPassword } = useState();
+
+    //The handlers of usernaem and password states are below
+    const usernameHandler = (e) => {
+        setUsername('username')
+    }
+    const passwordHandler = (e) => {
+        setPassword('password')
+    }
+
     return (
         <>
             <div className="h-screen flex items-center justify-items-cente space-x-9">
@@ -15,9 +43,9 @@ export default function Login() {
                     <div className="rounded-xl px-10 py-10 shadow-2xl ml-20">
                         <h2 className="text-center text-3xl py-4">Login</h2>
                         <form>
-                            <input className="block" type="username" name="username" placeholder="username" />
-                            <input className="block" type="password" name="password" placeholder="password" />
-                            <input className="block mt-6 border-2" type="submit" value="login" />
+                            <input className="block" type="username" name="username" placeholder="username" value={username} onChange={usernameHandler} />
+                            <input className="block" type="password" name="password" placeholder="password" value={password} onChange={passwordHandler} />
+                            <input className="block mt-6 border-2" type="submit" value="login" onClick={() => { login(props, 'username', 'password') }} />
                         </form>
                     </div>
                 </section>
