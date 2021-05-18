@@ -15,6 +15,7 @@ const createCheckHomeDir = () => {
     try {
         if (!fs.existsSync(`${homedir}/.passdex`)) {
             fs.mkdirSync(`${homedir}/.passdex`)
+            fs.mkdirSync(`${homedir}/.passdex/vaults`)
         }
         else {
             console.log("Directory already exists")

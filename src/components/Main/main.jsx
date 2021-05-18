@@ -1,31 +1,13 @@
 import React from 'react';
 
+import Vault from './vault.jsx'
+
 export default function Main() {
     return (
         <>
             <main className="h-screen w-screen flex flex-wrap">
 
-                <section className="relative w-26 bg-gray-700 flex flex-wrap justify-center shadow-2xl">
-                    <div>
-                        <div className="rounded-full bg-gray-100 h-24 w-24 m-3.5 flex items-center justify-center shadow-2xl">
-                            <b>Vault 1</b>
-                        </div>
-                        <div className="rounded-full bg-gray-100 h-24 w-24 m-3.5 flex items-center justify-center shadow-2xl">
-                            <b>Vault 2</b>
-                        </div>
-                        <div className=" rounded-full bg-gray-100 h-24 w-24 m-3.5 flex items-center justify-center shadow-2xl">
-                            <b>Vault 3</b>
-                        </div>
-                    </div>
-                    <button id="button" type="button"
-                        className="rounded-full mr-auto ml-auto mb-2 h-8 w-24 text-lg text-white flex flex-wrap
-           	absolute inset-x-0 bottom-0 align-text-bottom transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-gray-500 hover:bg-gray-600 hover:shadow-lg focus:outline-none justify-center shadow-2xl">
-                        <b>+</b>
-
-                    </button>
-
-
-                </section>
+                <Vault />
 
                 <section className="relative w-2/12 bg-gray-800 text-gray-100 flex flex-col shadow-2xl">
 
