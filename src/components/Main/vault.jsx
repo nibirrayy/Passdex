@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import VaultEntry from './vault.entries.jsx'
-import { readVaults } from '../../lib/vaults.js';
+import { readVaults, loadVault } from '../../lib/vaults.js';
+
 
 export default function Vault() {
 
     const [vaults, setVaults] = useState(readVaults())
+
+    //const { vaultData, setvaultData } = useContext(vaultContext)
 
     useEffect(() => {
         //const temp = readVaults()
@@ -21,13 +24,16 @@ export default function Vault() {
         , [])
 
 
-    const vaultClickHandler = () => { }
+    const vaultClickHandler = (vaultName) => {
+        const fileData = loadVault(vaultName);
+        console.log(fileData)
+    }
 
     return (
         <section className="relative w-26 bg-gray-700 flex flex-wrap justify-center shadow-2xl">
             <div>
                 {vaults.map(vault => {
-                    return <VaultEntry vaultName={vault} />
+                    return <VaultEntry vaultName={vault} clickFunction={() => { vaultClickHandler(vault) }} />
                 })}
             </div>
             <button id="button" type="button"
