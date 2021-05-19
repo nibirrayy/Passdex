@@ -9,6 +9,15 @@ const readVaults = () => {
 }
 
 
-const loadVault = () => { }
+const loadVault = (fileName) => {
+    const homedir = require('os').homedir();
+    const dir = `${homedir}/.passdex/vaults`;
+    const file = `${dir}/${fileName}`;
 
-export { readVaults };
+    let data = fs.readFileSync(file);
+    data = JSON.parse(data);
+    return data;
+}
+
+
+export { readVaults, loadVault };
