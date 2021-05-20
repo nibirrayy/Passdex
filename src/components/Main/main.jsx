@@ -1,17 +1,18 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 
 import Vault from './vault.jsx'
 
-const vaultContext = createContext(null);
+export const vaultContext = createContext();
 
 export default function Main() {
 
 
     const [vaultData, setvaultData] = useState();
 
+
     return (
         <>
-            <vaultContext.Provider>
+            <vaultContext.Provider value={{ vaultData, setvaultData }} >
                 <main className="h-screen w-screen flex flex-wrap">
 
                     <Vault />

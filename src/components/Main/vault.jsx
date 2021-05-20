@@ -2,13 +2,13 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import VaultEntry from './vault.entries.jsx'
 import { readVaults, loadVault } from '../../lib/vaults.js';
+import { vaultContext } from './main.jsx';
 
 
 export default function Vault() {
 
     const [vaults, setVaults] = useState(readVaults())
-
-    //const { vaultData, setvaultData } = useContext(vaultContext)
+    const { vaultData, setvaultData } = useContext(vaultContext)
 
     useEffect(() => {
         //const temp = readVaults()
@@ -26,7 +26,7 @@ export default function Vault() {
 
     const vaultClickHandler = (vaultName) => {
         const fileData = loadVault(vaultName);
-        console.log(fileData)
+        setvaultData(fileData);
     }
 
     return (
