@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 
 import CategoryEntry from './category.entry.jsx'
 
+import { vaultContext } from './main.jsx'
+
+
 export default function Category() {
+
+    const { vaultData, setvaultData, setSelectedCategory } = useContext(vaultContext)
+
+    const categoryClickHandler = (category_id) => {
+        setSelectedCategory(category_id);
+    }
+
     return (
         <section className="relative h-screen w-2/12 bg-gray-800 text-gray-100 flex flex-col shadow-2xl">
 
@@ -15,9 +25,11 @@ export default function Category() {
                     clip-rule="evenodd" />
             </svg>
             <div className="overflow-y-scroll" id="scroll">
-                <CategoryEntry />
-                <CategoryEntry />
-                <CategoryEntry />
+                {
+                    vaultData.map((category) => {
+                        return <CategoryEntry Category_name={category.category} key={category.id} ClickFunction={() => { categoryClickHandler(category.id) }} />
+                    }
+                    )}
 
                 <button id="button" type="button"
                     className="rounded-full pt-1 mr-auto ml-auto mb-2 h-8 w-32 text-sm text-white flex absolute inset-x-0 bottom-0 align-text-bottom transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-gray-500 hover:bg-gray-600 hover:shadow-lg focus:outline-none justify-center">

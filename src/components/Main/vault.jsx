@@ -8,7 +8,7 @@ import { vaultContext } from './main.jsx';
 export default function Vault() {
 
     const [vaults, setVaults] = useState(readVaults())
-    const { vaultData, setvaultData } = useContext(vaultContext)
+    const { setvaultData } = useContext(vaultContext)
 
     useEffect(() => {
         //const temp = readVaults()
@@ -32,8 +32,8 @@ export default function Vault() {
     return (
         <section className="relative h-screen w-26 bg-gray-700 flex justify-center shadow-2xl">
             <div className="overflow-y-scroll" id="scroll">
-                {vaults.map(vault => {
-                    return <VaultEntry vaultName={vault} clickFunction={() => { vaultClickHandler(vault) }} />
+                {vaults.map((vault, index) => {
+                    return <VaultEntry vaultName={vault} clickFunction={() => { vaultClickHandler(vault) }} key={index} />
                 })}
             </div>
             <button id="button" type="button"
