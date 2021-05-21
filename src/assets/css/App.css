@@ -1,3 +1,10 @@
 /* Main CSS file */
 
 @import './tailwind.css';
+#scroll::-webkit-scrollbar {
+    display: none;
+}
+#scroll {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}  

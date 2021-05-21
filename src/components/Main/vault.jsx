@@ -30,8 +30,8 @@ export default function Vault() {
     }
 
     return (
-        <section className="relative w-26 bg-gray-700 flex flex-wrap justify-center shadow-2xl">
-            <div>
+        <section className="relative h-screen w-26 bg-gray-700 flex justify-center shadow-2xl">
+            <div className="overflow-y-scroll" id="scroll">
                 {vaults.map(vault => {
                     return <VaultEntry vaultName={vault} clickFunction={() => { vaultClickHandler(vault) }} />
                 })}
