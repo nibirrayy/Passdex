@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <link rel="stylesheet" href="./../../assets/css/tailwind.css">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Credentials</title>
+</head>
+
+<body>
+    <form>
+
+        <div class="min-h-screen bg-gray-50 text-gray-800 antialiased px-4 py-6 flex flex-col justify-center sm:py-12">
+            <div class="relative py-3 sm:max-w-xl mx-auto text-center">
+                <div class="text-2xl font-bold shadow-2xl">Change Password</div>
+                <div class="relative mt-6 bg-gray-800 shadow-2xl rounded-lg text-left">
+
+                    <div class="py-6 px-8">
+                        <label class="block font-semibold text-white">Username<label>
+                                <input type="text" placeholder="Username" name="Username" id="Username" autofocus
+                                    class=" border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-gray-200 rounded-md text-gray-800">
+                                <label class="block mt-3 font-semibold">Password<label>
+                                        <input type="password" placeholder="****************" name="Password"
+                                            id="Password"
+                                            class=" border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md text-gray-800">
+                                        <div class="flex  items-baseline justify-center">
+                                            <button
+                                                class="mt-9 bg-gray-600 hover:bg-gray-500 text-white py-2 px-6 rounded-lg"
+                                                type="submit">Submit</button>
+                                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit">Change Password</button>
+    </form>
+
+</body>
+<script>
+
+    const electron = require('electron');
+    const { ipcRenderer } = electron;
+
+    document.querySelector('form').addEventListener('submit', (event) => {
+        event.preventDefault();
+        const Username = document.getElementById('Username').value;
+        const Password = document.getElementById('Password').value;
+
+        const data = {
+            Username,
+            Password
+        }
+
+        ipcRenderer.send('setting:changePassword', data);
+
+    })
+
+</script>
+
+</html>

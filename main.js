@@ -1,14 +1,18 @@
 'use strict'
 
 // Import parts of electron to use
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, Menu } = require('electron')
+const { ipcMain } = require('electron/main')
 const path = require('path')
 const url = require('url')
+
+
+const changeCreds = require('./src/lib/creds')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
-
+let changeDefaultCredsWindow
 // Keep a reference for dev mode
 let dev = false
 
@@ -27,6 +31,61 @@ if (process.platform === 'win32') {
   app.commandLine.appendSwitch('high-dpi-support', 'true')
   app.commandLine.appendSwitch('force-device-scale-factor', '1')
 }
+
+const menuTemplate = [
+  {
+    label: 'App',
+    submenu: [
+      {
+        label: 'Change Default Creds',
+        click() {
+          changeDefaultCreds();
+        }
+      }
+    ]
+  },
+  {
+    label: 'Developer Options',
+    submenu: [
+      {
+        label: 'Toogle Developer Tools',
+        click(item, focusedWindow) {
+          focusedWindow.toggleDevTools();
+        }
+      }
+    ]
+  }
+];
+
+// This is for mac. On mac the first label goes under the application name at the top
+if (process.platform === 'darwin') {
+  menuTemplate.unshift({
+    label: ''
+  })
+}
+
+
+//This fucntion is used to change default Creds
+function changeDefaultCreds() {
+  changeDefaultCredsWindow = new BrowserWindow({
+    width: 300,
+    height: 200,
+    title: 'Change Creds',
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false
+    }
+  });
+  changeDefaultCredsWindow.loadFile('./src/components/Menubar/changeDefCreds.html');
+}
+
+// This is handle when the event setting:changePassword event is recieved from changeDefCreds
+ipcMain.on('setting:changePassword', (event, { Username, Password }) => {
+  changeCreds(Username, Password);
+  changeDefaultCredsWindow.close();
+
+})
+
 
 function createWindow() {
   // Create the browser window.
@@ -59,6 +118,10 @@ function createWindow() {
   }
 
   mainWindow.loadURL(indexPath)
+
+  // This is to set the menu bar of the application
+  const mainMenu = Menu.buildFromTemplate(menuTemplate);
+  Menu.setApplicationMenu(mainMenu);
 
   // Don't show until we are ready and loaded
   mainWindow.once('ready-to-show', () => {

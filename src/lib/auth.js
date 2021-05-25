@@ -12,7 +12,7 @@ class Auth {
     newStart() {
         const authFile = `${this.homedir}/.passdex/auth.json`;
         const secret = crypto.randomBytes(24).toString('hex');
-        fs.writeFileSync(`${this.homedir}/.passdex/secret`, secret)
+        fs.writeFileSync(`${this.homedir}/.passdex/secret`, secret);
         const defaultUsername = crypto.createHmac('sha256', secret).update('username').digest('hex');
         const defaultPasssword = crypto.createHmac('sha256', secret).update('password').digest('hex');
         let defaultCreds = {
@@ -24,10 +24,10 @@ class Auth {
     }
 
     hashed(data) {
-        const secret = fs.readFileSync(`${this.homedir}/.passdex/secret`)
+        const secret = fs.readFileSync(`${this.homedir}/.passdex/secret`);
         const hash = crypto.createHmac('sha256', secret)
             .update(data)
-            .digest('hex')
+            .digest('hex');
         return hash
     }
 
