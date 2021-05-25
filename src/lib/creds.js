@@ -1,3 +1,5 @@
+/*This lib files allowa*/
+
 const fs = require('fs');
 const crypto = require('crypto');
 
@@ -17,7 +19,6 @@ const changeCreds = (NewUsername, NewPassword) => {
     };
     let data = JSON.stringify(creds);
     fs.writeFileSync(authFile, data);
-
 
 }
 

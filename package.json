@@ -46,6 +46,7 @@
     "postpackage": "electron-packager ./ --out=./builds"
   },
   "dependencies": {
+    "node-machine-id": "^1.1.12",
     "postcss": "^8.2.8",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
