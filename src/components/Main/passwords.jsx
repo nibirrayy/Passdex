@@ -1,8 +1,28 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import PasswordEntry from './password.entries.jsx';
 
+import { vaultContext } from './main.jsx'
+
 export default function Passwords() {
+
+    const { vaultData, selectedCategory, selectedPassword, setSelectedPassword } = useContext(vaultContext);
+
+    //const [data, setdata] = useState();
+    let data = {}
+
+    useEffect(() => {
+        data = vaultData[selectedCategory - 1]
+        //console.log(data)
+        if (data != undefined) {
+            //console.log(data)
+        }
+    }, [selectedCategory])
+
+    const passwordClickHandler = (passwordId) => {
+        setSelectedPassword(passwordId);
+    }
+
 
     return (
         <section className="relative h-screen w-3/12 bg-gray-900 text-gray-100 flex flex-col shadow-2xl">
@@ -28,7 +48,23 @@ export default function Passwords() {
                     clip-rule="evenodd" />
             </svg>
             <div className="overflow-y-scroll" id="scroll">
-                <PasswordEntry />
+                {
+                    vaultData.map((category, index) => {
+                        if (index == selectedCategory - 1) {
+                            return (
+                                category.entries.map(
+                                    (password_items) => {
+                                        //console.log(password_items.password_id)
+                                        return (
+                                            <PasswordEntry entry_name={password_items.title} ClickFunction={() => { passwordClickHandler(password_items.password_id) }} />
+                                        )
+                                    }
+                                )
+                            )
+
+                        }
+                    })
+                }
             </div>
             <button id="button" type="button"
                 className="rounded-full pt-1 mr-auto ml-auto mb-2 h-8 w-40 text-sm text-white flex absolute inset-x-0 bottom-0 align-text-bottom transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-gray-500 hover:bg-gray-600 hover:shadow-lg focus:outline-none justify-center shadow-2xl">

@@ -13,11 +13,12 @@ export default function Main() {
 
     const [vaultData, setvaultData] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState();
+    const [selectedPassword, setSelectedPassword] = useState();
 
 
     return (
         <>
-            <vaultContext.Provider value={{ vaultData, setvaultData, selectedCategory, setSelectedCategory }} >
+            <vaultContext.Provider value={{ vaultData, setvaultData, selectedCategory, setSelectedCategory, selectedPassword, setSelectedPassword }} >
                 <main className="h-screen w-screen flex flex-wrap">
 
                     <Vault />
