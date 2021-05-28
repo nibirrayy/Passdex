@@ -15,6 +15,9 @@ export default function Main() {
     const [selectedCategory, setSelectedCategory] = useState();
     const [selectedPassword, setSelectedPassword] = useState();
 
+    useEffect(() => {
+        console.log("Vault Data changed")
+    }, [vaultData])
 
     return (
         <>

@@ -9,7 +9,6 @@ export default function Category() {
 
     const { vaultData, setvaultData, setSelectedCategory } = useContext(vaultContext)
 
-
     let counter = 1;
 
     const addNewGroup = () => {
@@ -20,7 +19,9 @@ export default function Category() {
 
             ]
         }
-        vaultData.push(defaultGroup);
+        let newdata = vaultData
+        newdata.push(defaultGroup)
+        setvaultData(newdata);
         //you can write the entire vault again to the file here
         counter++;
     }

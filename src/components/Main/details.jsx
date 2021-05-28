@@ -4,12 +4,13 @@ import { vaultContext } from './main.jsx'
 
 export default function Details() {
 
-    const { vaultData, selectedPassword, selectedCategory } = useContext(vaultContext)
+    const { vaultData, selectedPassword, selectedCategory, setvaultData } = useContext(vaultContext)
 
     //this is to handle the change of any fields
-    const [title, setTitle] = useState();
-    const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
+    const [title, setTitle] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
 
     useEffect(() => {
         vaultData.forEach((category, index) => {
@@ -26,9 +27,38 @@ export default function Details() {
     }, [selectedPassword])
 
 
-    const onTitleChange = () => { }
-    const onUsernameChange = () => { }
-    const onPasswordChange = () => { }
+    const onTitleChange = (e) => {
+        setTitle(e.target.value)
+    }
+    const onUsernameChange = (e) => {
+        setUsername(e.target.value)
+    }
+    const onPasswordChange = (e) => {
+        setPassword(e.target.value)
+    }
+
+    const onSaveHandler = () => {
+        const newData = vaultData.map((category, index) => {
+            if (index == selectedCategory - 1) {
+                return (
+                    category.entries = category.entries.map((password_item) => {
+                        if (selectedPassword == password_item.password_id) {
+                            password_item.title = title;
+                            password_item.username = username;
+                            password_item.password = password;
+                            return password_item;
+                        }
+                        return password_item;
+                    })
+                )
+            }
+            return category;
+        })
+        // We can save the complete vault 
+        console.log(newData)
+        //setvaultData(vaultData);
+        //console.log(vaultData)
+    }
 
 
     return (
@@ -43,11 +73,11 @@ export default function Details() {
 
             <form className=" mt-14 mb-20">
                 <label className="hover:text-gray-600 ml-24 " htmlFor="title"><b>TITLE</b></label>
-                <input className="rounded-lg ml-10 ring-2" type="text" name="title" placeholder="Enter a Title" value={title} /><br />
+                <input className="rounded-lg ml-10 ring-2" type="text" name="title" placeholder="Enter a Title" value={title} onChange={onTitleChange} /><br />
                 <label className="hover:text-gray-600 ml-12 " htmlFor="uname"><b>USERNAME</b></label>
-                <input className="rounded-lg ml-10 mt-5 ring-2" type="text" name="uname" placeholder="Enter a username" value={username} /><br />
+                <input className="rounded-lg ml-10 mt-5 ring-2" type="text" name="uname" placeholder="Enter a username" value={username} onChange={onUsernameChange} /><br />
                 <label className="hover:text-gray-600 ml-12 " htmlFor="pword"><b>PASSWORD</b></label>
-                <input className="rounded-lg ml-10 mt-5 ring-2" type="text" name="pword" placeholder="Enter password" value={password} />
+                <input className="rounded-lg ml-10 mt-5 ring-2" type="text" name="pword" placeholder="Enter password" value={password} onChange={onPasswordChange} />
             </form>
 
             {
@@ -81,7 +111,7 @@ export default function Details() {
             </button>
             */}
 
-            <button id="button" type="button"
+            <button id="button" type="button" onClick={onSaveHandler}
                 className="rounded-full pt-1 ml-5 mb-2 h-8 w-40 text-sm text-white flex
                 absolute bottom-0 left-0 align-text-bottom transition-all duration-150 ease-linear rounded-xl shadow outline-none bg-gray-500 hover:bg-green-600 hover:shadow-lg focus:outline-none justify-center shadow-2xl">
                 <b>SAVE</b>
