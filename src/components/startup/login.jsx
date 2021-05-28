@@ -19,8 +19,8 @@ export default function Login(props) {
         createCheckHomeDir()
     }, [])
 
-    const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
     //The handlers of usernaem and password states are below
     const usernameHandler = (e) => {

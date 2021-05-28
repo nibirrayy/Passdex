@@ -8,21 +8,27 @@ export default function Passwords() {
 
     const { vaultData, selectedCategory, selectedPassword, setSelectedPassword } = useContext(vaultContext);
 
-    //const [data, setdata] = useState();
-    let data = {}
-
-    useEffect(() => {
-        data = vaultData[selectedCategory - 1]
-        //console.log(data)
-        if (data != undefined) {
-            //console.log(data)
-        }
-    }, [selectedCategory])
+    let counter = 1;
 
     const passwordClickHandler = (passwordId) => {
         setSelectedPassword(passwordId);
     }
 
+    const addEntryHandler = () => {
+        vaultData.map((category, index) => {
+            if (index == selectedCategory - 1) {
+                category.entries.forEach((passwords, index) => {
+                    counter = index + 2;
+                })
+                category.entries.push({
+                    "password_id": counter,
+                    "title": "Default entry",
+                    "username": "",
+                    "password": ""
+                })
+            }
+        })
+    }
 
     return (
         <section className="relative h-screen w-3/12 bg-gray-900 text-gray-100 flex flex-col shadow-2xl">
@@ -42,21 +48,22 @@ export default function Passwords() {
                     </button>
                 </div>
             </div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="ml-1 h-5 w-5 shadow-2xl" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd"
+            <svg xmlns="http://www.w3.org/2000/svg" className="ml-1 h-5 w-5 shadow-2xl" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd"
                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"
-                    clip-rule="evenodd" />
+                    clipRule="evenodd" />
             </svg>
-            <div className="overflow-y-scroll" id="scroll">
+            <div className="overflow-y-scroll flex flex-col" id="scroll">
                 {
                     vaultData.map((category, index) => {
                         if (index == selectedCategory - 1) {
                             return (
                                 category.entries.map(
-                                    (password_items) => {
+                                    (password_items, Index) => {
+                                        counter++;
                                         //console.log(password_items.password_id)
                                         return (
-                                            <PasswordEntry entry_name={password_items.title} ClickFunction={() => { passwordClickHandler(password_items.password_id) }} />
+                                            < PasswordEntry entry_name={password_items.title} ClickFunction={() => { passwordClickHandler(password_items.password_id) }} key={Index} />
                                         )
                                     }
                                 )
@@ -66,7 +73,7 @@ export default function Passwords() {
                     })
                 }
             </div>
-            <button id="button" type="button"
+            <button id="button" type="button" onClick={addEntryHandler}
                 className="rounded-full pt-1 mr-auto ml-auto mb-2 h-8 w-40 text-sm text-white flex absolute inset-x-0 bottom-0 align-text-bottom transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-gray-500 hover:bg-gray-600 hover:shadow-lg focus:outline-none justify-center shadow-2xl">
                 <b>+ ADD ENTRY</b>
 

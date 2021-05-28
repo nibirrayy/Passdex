@@ -10,20 +10,6 @@ export default function Vault() {
     const [vaults, setVaults] = useState(readVaults())
     const { setvaultData } = useContext(vaultContext)
 
-    useEffect(() => {
-        //const temp = readVaults()
-        //console.log(temp)
-        //setVaults(temp)
-        // const trial = readVaults()
-        // trial.forEach((ENTRY) => {
-        //     console.log(ENTRY)
-        // })
-        console.log(vaults)
-        //setNumbers([1, 2, 3, 4, 5, 6, 7, 8])
-    }
-        , [])
-
-
     const vaultClickHandler = (vaultName) => {
         const fileData = loadVault(vaultName);
         setvaultData(fileData);
